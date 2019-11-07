@@ -17,9 +17,9 @@ def eval(x, env=None):
     
     # Avalia tipos atômicos
     if isinstance(x, Symbol):
-        return NotImplemented
+        return env[x]
     elif isinstance(x, (int, float, bool, str)):
-        return NotImplemented
+        return x
 
     # Avalia formas especiais e listas
     head, *args = x
@@ -27,12 +27,16 @@ def eval(x, env=None):
     # Comando (if <test> <then> <other>)
     # Ex: (if (even? x) (quotient x 2) x)
     if head == Symbol.IF:
-        return NotImplemented
+        (cond, conseq, alt) = args
+        exp = (conseq if eval(cond, env) else alt)
+        return eval(exp, env)
 
     # Comando (define <symbol> <expression>)
     # Ex: (define x (+ 40 2))
     elif head == Symbol.DEFINE:
-        return NotImplemented
+        (var, exp) = args
+        result = eval(exp, env)
+        env[var] = result
 
     # Comando (quote <expression>)
     # (quote (1 2 3))
@@ -52,8 +56,9 @@ def eval(x, env=None):
     # Lista/chamada de funções
     # (sqrt 4)
     else:
-       return NotImplemented
-
+        proc = eval(head, env)
+        args = (eval(args, env) for args in x[1:])
+        return proc(*args)
 
 #
 # Cria ambiente de execução.
