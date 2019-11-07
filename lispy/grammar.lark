@@ -1,13 +1,28 @@
-?start : value+
+?start : expr
 
-?value : SYMBOL
- 
+?expr : atom
+      | list
+
+?number : INT -> number
+        | FLOAT -> number
+
+?list: "(" expr* ")" -> lista
+
+?bool : TRUE -> boolean
+      | FALSE -> boolean
+
+?atom : STRING -> string
+      | SYMBOL -> symbol
+      | number 
+      | bool
 
 // Terminais
 SYMBOL.0  : /[-!+\/*@$%^&~<>?|\\\w=]+/
 STRING    : /"[^"\\]*(\\[^\n\t\r\f][^"\\]*)*"/
 INT.1     : /-?\d+/
 FLOAT.2   : /-?\d+\.\d+/
+TRUE      : "#t"
+FALSE     : "#f"
 
 %ignore /\s+/
 %ignore /;[^\n]*/
