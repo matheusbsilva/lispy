@@ -6,7 +6,7 @@ from .runtime import Symbol
 
 class LispTransformer(InlineTransformer):
 
-    def start(self, *args): 
+    def start(self, *args):
         return [Symbol.BEGIN, *args]
 
     def number(self, token):
@@ -18,9 +18,6 @@ class LispTransformer(InlineTransformer):
         elif(value == '#f'):
             return False
 
-    def atom(self, value):
-        return Symbol(value)
-
     def string(self, value):
         return str(eval(value))
 
@@ -29,7 +26,10 @@ class LispTransformer(InlineTransformer):
 
     def lista(self, *expr):
         return list(expr)
-            
+
+    def quote(self, expr):
+        return [Symbol.QUOTE, expr]
+
 def parse(src: str):
     """
     Compila string de entrada e retorna a S-expression equivalente.

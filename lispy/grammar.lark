@@ -2,6 +2,7 @@
 
 ?expr : atom
       | list
+      | quote 
 
 ?number : INT -> number
         | FLOAT -> number
@@ -15,6 +16,8 @@
       | SYMBOL -> symbol
       | number 
       | bool
+
+?quote :  "'" expr -> quote
 
 // Terminais
 SYMBOL.0  : /[-!+\/*@$%^&~<>?|\\\w=]+/
