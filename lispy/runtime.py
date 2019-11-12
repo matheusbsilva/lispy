@@ -46,7 +46,14 @@ def eval(x, env=None):
     # Comando (let <expression> <expression>)
     # (let ((x 1) (y 2)) (+ x y))
     elif head == Symbol.LET:
-        return NotImplemented
+
+        (_, defs, expr) = x
+        local = ChainMap({}, env)
+
+        for i in defs:
+            eval([Symbol.DEFINE, i[0], i[1]], local)
+
+        return eval(expr, local)
 
     # Comando (lambda <vars> <body>)
     # (lambda (x) (+ x 1))
