@@ -58,7 +58,21 @@ def eval(x, env=None):
     # Comando (lambda <vars> <body>)
     # (lambda (x) (+ x 1))
     elif head == Symbol.LAMBDA:
-        return NotImplemented
+          (var, body) = args
+  
+          if not isinstance(var, list):
+              var = [var]
+  
+          if not all(map(lambda params: isinstance(params, Symbol), var)):
+              raise TypeError('Invalid parameters!')
+  
+          def lamb(*args):
+              local = env.new_child(
+                  {Symbol(sym): eval(v, env) for sym, v in zip(var, args)}
+              )
+              return eval(body, local)
+  
+          return lamb
 
     # Lista/chamada de funções
     # (sqrt 4)

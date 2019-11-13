@@ -19,6 +19,8 @@
 
 ?quote :  "'" expr -> quote
 
+?lambda : list expr -> lambda
+
 // Terminais
 SYMBOL.0  : /[-!+\/*@$%^&~<>?|\\\w=]+/
 STRING    : /"[^"\\]*(\\[^\n\t\r\f][^"\\]*)*"/
