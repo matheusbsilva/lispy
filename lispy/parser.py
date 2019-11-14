@@ -30,6 +30,9 @@ class LispTransformer(InlineTransformer):
     def quote(self, expr):
         return [Symbol.QUOTE, expr]
 
+    def infix(self, left, op, right):
+        return [op, left, right]
+
 def parse(src: str):
     """
     Compila string de entrada e retorna a S-expression equivalente.
