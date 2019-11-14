@@ -33,6 +33,13 @@ class LispTransformer(InlineTransformer):
     def infix(self, left, op, right):
         return [op, left, right]
 
+    def assign(self, var, value):
+        return [Symbol(var), value]
+
+    def let_extension(self, *args):
+        *assigns, expr = args
+        return [Symbol.LET, assigns, expr]
+
 def parse(src: str):
     """
     Compila string de entrada e retorna a S-expression equivalente.

@@ -3,12 +3,19 @@
 ?expr : atom
       | list
       | quote 
+      | let_extension
 
 ?number : INT -> number
         | FLOAT -> number
 
 ?list : "(" expr* ")" -> lista
-      | "[" expr* "]" -> infix 
+      | infix
+
+?infix : "[" expr* "]" -> infix 
+
+?assign : SYMBOL "=" expr -> assign
+
+?let_extension : ":let" "{" assign* "}" "in" list -> let_extension 
 
 ?bool : TRUE -> boolean
       | FALSE -> boolean
