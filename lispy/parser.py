@@ -40,6 +40,17 @@ class LispTransformer(InlineTransformer):
         *assigns, expr = args
         return [Symbol.LET, assigns, expr]
 
+    def elif_extension(self, cond, conseq):
+        return [cond, conseq]
+
+    def if_extension(self, *args):
+        cond, conseq, *elifs, alt = args
+
+        if not elifs:
+            return [Symbol.IF, cond, conseq, alt]
+
+        return [Symbol.IF, cond, conseq, self.if_extension(*elifs[0], alt)]
+
 def parse(src: str):
     """
     Compila string de entrada e retorna a S-expression equivalente.

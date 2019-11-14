@@ -4,6 +4,7 @@
       | list
       | quote 
       | let_extension
+      | if_extension
 
 ?number : INT -> number
         | FLOAT -> number
@@ -16,6 +17,10 @@
 ?assign : SYMBOL "=" expr -> assign
 
 ?let_extension : ":let" "{" assign* "}" "in" list -> let_extension 
+
+?if_extension : ":if" expr "then:" expr elif_extension* ":else:" expr
+
+?elif_extension : ":elif" expr "then:" expr
 
 ?bool : TRUE -> boolean
       | FALSE -> boolean
